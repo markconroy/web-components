@@ -5,10 +5,10 @@ class DdevSponsorsBanner extends HTMLElement {
   }
 
   connectedCallback() {
-    const goal = 12000;
     fetch("https://raw.githubusercontent.com/ddev/sponsorship-data/refs/heads/main/data/all-sponsorships.json")
       .then((response) => response.json())
       .then((json) => {
+        const goal = json.current_goal?.target_amount || 12000;
         const formattedIncome = new Intl.NumberFormat("en-US", {
           style: "currency",
           currency: "USD",
@@ -22,6 +22,8 @@ class DdevSponsorsBanner extends HTMLElement {
           minimumFractionDigits: 0,
           maximumFractionDigits: 0,
         }).format(goal);
+
+        console.log("DDEV Sponsorship Data:", json);
 
         this.shadowRoot.innerHTML = `
           <style>
@@ -98,7 +100,7 @@ class DdevSponsorsBanner extends HTMLElement {
 
             <div class="ddev-sponsor-us-banner__content">
               <h2>Sponsor DDEV</h2>
-              <p>Help us reach our goal of $12,000 per month</p>
+              <p>Help us reach our goal of ${formattedGoal} per month</p>
               <p>Currently ${formattedIncome} of ${formattedGoal}</p>
               <meter value="${json.total_monthly_average_income}" max="${goal}"></meter>
             </div>
