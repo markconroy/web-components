@@ -5,7 +5,7 @@ class DdevSponsorsBanner extends HTMLElement {
   }
 
   connectedCallback() {
-    fetch("https://raw.githubusercontent.com/ddev/sponsorship-data/refs/heads/main/data/all-sponsorships.json")
+    fetch("https://ddev.com/s/sponsorship-data.json")
       .then((response) => response.json())
       .then((json) => {
         const goal = json.current_goal?.target_amount || 12000;
